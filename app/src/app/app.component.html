@@ -1,0 +1,38 @@
+<div class="page">
+  <header class="page-header">
+    <div class="top-nav">
+      <div class="header-badge">Automated Job-Matching Assistant</div>
+      <button
+        type="button"
+        class="theme-toggle-btn"
+        (click)="themeService.toggleTheme()"
+        [title]="themeService.isDark() ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
+        [attr.aria-label]="themeService.isDark() ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
+      >
+        <span class="theme-icon">{{ themeService.isDark() ? '☀️' : '🌙' }}</span>
+        <span class="theme-label">{{ themeService.isDark() ? 'Light' : 'Dark' }}</span>
+      </button>
+    </div>
+    <h1>Resume Skill Matcher</h1>
+    <p>Scan missing skills from job portal screenshots, tailor your resume profile, and export an ATS-friendly PDF in seconds.</p>
+  </header>
+
+  <main class="page-body">
+    <div class="config-bar">
+      <app-resume-editor></app-resume-editor>
+      <app-ai-settings></app-ai-settings>
+    </div>
+
+    <app-screenshot-upload (skillsExtracted)="onSkillsExtracted($event)"></app-screenshot-upload>
+
+    @if (candidateSkills()) {
+      <app-skill-review [candidateSkills]="candidateSkills()" (skillsApproved)="onSkillsApproved($event)"></app-skill-review>
+    }
+
+    <app-resume-preview></app-resume-preview>
+  </main>
+
+  <footer class="page-footer">
+    <p>All resume data and API keys are stored privately in your browser's local storage.</p>
+  </footer>
+</div>

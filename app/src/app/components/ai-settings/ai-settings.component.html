@@ -1,0 +1,81 @@
+<div class="settings-card">
+  <button type="button" class="settings-toggle" (click)="toggle()">
+    <span class="gear-icon">⚙</span>
+    <span class="toggle-text">AI Model Settings</span>
+    <span class="toggle-action">{{ isOpen() ? '(collapse)' : '(configure endpoint)' }}</span>
+  </button>
+
+  @if (isOpen()) {
+    <div class="settings-body">
+      <div class="field-group">
+        <label class="field-label">AI Provider</label>
+        <div class="provider-toggle">
+          <button
+            type="button"
+            class="provider-btn"
+            [class.active]="form.provider === 'local'"
+            (click)="onProviderChange('local')"
+          >
+            Local (LM Studio / Ollama)
+          </button>
+          <button
+            type="button"
+            class="provider-btn"
+            [class.active]="form.provider === 'api'"
+            (click)="onProviderChange('api')"
+          >
+            OpenAI-Compatible API
+          </button>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">API Base URL</label>
+        <input
+          type="text"
+          class="field-input"
+          [(ngModel)]="form.baseUrl"
+          [placeholder]="form.provider === 'local' ? 'http://localhost:1234/v1' : 'https://api.openai.com/v1'"
+        />
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Model Identifier</label>
+        <input
+          type="text"
+          class="field-input"
+          [(ngModel)]="form.model"
+          placeholder="e.g. gpt-4o-mini or local vision model name"
+        />
+      </div>
+
+      @if (form.provider === 'api') {
+        <div class="field-group">
+          <label class="field-label">API Key</label>
+          <input
+            type="password"
+            class="field-input"
+            [(ngModel)]="form.apiKey"
+            placeholder="sk-..."
+          />
+          <span class="field-hint">Stored strictly in local browser storage; never transmitted elsewhere.</span>
+        </div>
+      }
+
+      @if (form.provider === 'local') {
+        <div class="info-box">
+          <p>
+            Connect to LM Studio (Developer tab → Start Local Server) or Ollama. Ensure a <strong>vision-enabled model</strong> is loaded so the AI can distinguish highlighted chip colors.
+          </p>
+        </div>
+      }
+
+      <div class="actions-row">
+        <button type="button" class="btn-primary" (click)="save()">Save Configuration</button>
+        @if (savedMessage()) {
+          <span class="saved-badge">✓ Settings saved</span>
+        }
+      </div>
+    </div>
+  }
+</div>

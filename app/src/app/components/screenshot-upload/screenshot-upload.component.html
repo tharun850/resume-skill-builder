@@ -1,0 +1,58 @@
+<div class="upload-card">
+  <div class="card-title-row">
+    <span class="step-num">Step 1</span>
+    <h2>Upload Job-Match Screenshot</h2>
+  </div>
+  <p class="hint">
+    Take a quick screenshot of the job portal's skill tags (e.g., from LinkedIn or Naukri) using <strong>Win + Shift + S</strong> or Snipping Tool, then paste it here.
+  </p>
+
+  <div
+    class="dropzone"
+    [class.drag-over]="isDragOver()"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave()"
+    (drop)="onDrop($event)"
+    (paste)="onPaste($event)"
+    tabindex="0"
+  >
+    @if (!previewUrl()) {
+      <div class="dropzone-empty">
+        <div class="upload-icon">📷</div>
+        <p class="upload-title">Drop your screenshot here, or <strong>paste from clipboard (Ctrl+V)</strong></p>
+        <span class="upload-sub">Supports PNG, JPG, WebP</span>
+        <input type="file" accept="image/*" (change)="onFileSelected($event)" #fileInput />
+        <button type="button" class="btn-select" (click)="fileInput.click()">Browse Files</button>
+      </div>
+    } @else {
+      <div class="preview-wrapper">
+        <img [src]="previewUrl()" alt="Job skills screenshot preview" class="preview-img" />
+      </div>
+    }
+  </div>
+
+  @if (isProcessing()) {
+    <div class="status-banner">
+      <span class="spinner"></span>
+      <span>Analyzing missing skill chips with AI vision...</span>
+    </div>
+  }
+
+  @if (retryStatus()) {
+    <div class="status-banner retry">
+      <span>⏳ {{ retryStatus() }}</span>
+    </div>
+  }
+
+  @if (errorMessage()) {
+    <div class="error-banner">
+      <span>⚠️ {{ errorMessage() }}</span>
+    </div>
+  }
+
+  @if (previewUrl() && !isProcessing()) {
+    <div class="upload-footer">
+      <button type="button" class="btn-secondary" (click)="reset()">Upload a Different Screenshot</button>
+    </div>
+  }
+</div>

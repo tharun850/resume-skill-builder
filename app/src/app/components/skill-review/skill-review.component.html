@@ -1,0 +1,60 @@
+<div class="review-card">
+  <div class="card-title-row">
+    <span class="step-num">Step 2</span>
+    <h2>Review Extracted Missing Skills</h2>
+  </div>
+
+  @if (alreadyPresent().length) {
+    <div class="already-present-box">
+      <span class="already-title">Already on your resume (skipped):</span>
+      <div class="already-chips">
+        @for (s of alreadyPresent(); track s) {
+          <span class="chip chip-muted">{{ s }}</span>
+        }
+      </div>
+    </div>
+  }
+
+  @if (rows().length === 0) {
+    <p class="empty-state">No new missing skills detected from this screenshot.</p>
+  } @else {
+    <p class="hint">Check the skills you want to add to your resume. You can also add additional missing keywords manually below.</p>
+
+    <div class="add-manual-row">
+      <input
+        type="text"
+        class="manual-input"
+        placeholder="Add another skill (e.g. Docker, Redis)..."
+        [(ngModel)]="customSkillInput"
+        (keyup.enter)="addCustomSkill()"
+      />
+      <button type="button" class="btn-add-skill" (click)="addCustomSkill()">+ Add</button>
+    </div>
+
+    <div class="bulk-header">
+      <span class="bulk-count">{{ selectedCount() }} of {{ rows().length }} skills selected</span>
+      <div class="bulk-actions">
+        <button type="button" class="link-btn" (click)="toggleAll(true)">Select All</button>
+        <button type="button" class="link-btn" (click)="toggleAll(false)">Deselect All</button>
+      </div>
+    </div>
+
+    <div class="skill-grid">
+      @for (row of rows(); track row.skill) {
+        <div class="skill-row-item" [class.selected]="row.selected">
+          <label class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="row.selected" />
+            <span class="skill-text">{{ row.skill }}</span>
+          </label>
+          <button type="button" class="remove-btn" title="Remove" (click)="removeRow(row.skill)">&times;</button>
+        </div>
+      }
+    </div>
+
+    <div class="review-footer">
+      <button type="button" class="btn-confirm" [disabled]="selectedCount() === 0" (click)="confirm()">
+        Add {{ selectedCount() }} Skill{{ selectedCount() === 1 ? '' : 's' }} to Resume &rarr;
+      </button>
+    </div>
+  }
+</div>

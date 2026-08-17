@@ -1,0 +1,92 @@
+<div class="preview-card">
+  <div class="preview-header">
+    <div class="card-title-row">
+      <span class="step-num">Step 3</span>
+      <h2>Resume Preview &amp; PDF Export</h2>
+    </div>
+    <div class="actions">
+      <button type="button" class="btn-secondary" (click)="reset()">Reset Baseline</button>
+      <button type="button" class="btn-preview-pdf" (click)="openPdfPreview()">
+        <span>👁 Preview PDF</span>
+      </button>
+      <button type="button" class="btn-download" (click)="download()">
+        <span>⬇ Download PDF</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="resume-summary-banner">
+    <div class="candidate-info">
+      <strong>{{ resumeData.resume().name }}</strong> &bull; {{ resumeData.resume().title }}
+    </div>
+    <div class="candidate-meta">
+      <span>{{ resumeData.resume().location }}</span> &bull;
+      <span>{{ resumeData.resume().phone }}</span> &bull;
+      <a [href]="'mailto:' + resumeData.resume().email" class="portfolio-link">{{ resumeData.resume().email }}</a>
+      @if (resumeData.resume().linkedin) {
+        &bull; <a [href]="resumeData.resume().linkedin" target="_blank" rel="noopener noreferrer" class="portfolio-link">🔗 LinkedIn</a>
+      }
+      @if (resumeData.resume().portfolio) {
+        &bull; <a [href]="resumeData.resume().portfolio" target="_blank" rel="noopener noreferrer" class="portfolio-link">🌐 Portfolio Website</a>
+      }
+    </div>
+    @if (resumeData.resume().projects && resumeData.resume().projects!.length > 0) {
+      <div class="projects-meta-row">
+        <span class="projects-badge">🚀 {{ resumeData.resume().projects!.length }} Tech Projects</span>
+        <div class="projects-preview-tags">
+          @for (proj of resumeData.resume().projects; track proj.name) {
+            <span class="proj-tag-pill">{{ proj.name }}</span>
+          }
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="skills-section">
+    <div class="skills-header">
+      <span class="skill-label">Technical Skills ({{ resumeData.resume().skills.length }})</span>
+      <div class="quick-add">
+        <input
+          type="text"
+          class="quick-input"
+          placeholder="+ Add skill..."
+          [(ngModel)]="newSkillInput"
+          (keyup.enter)="addSkill()"
+        />
+        <button type="button" class="btn-quick-add" (click)="addSkill()">Add</button>
+      </div>
+    </div>
+
+    <div class="chips-container">
+      @for (skill of resumeData.resume().skills; track skill) {
+        <span class="skill-chip">
+          {{ skill }}
+          <button type="button" class="chip-remove" title="Remove {{ skill }}" (click)="removeSkill(skill)">&times;</button>
+        </span>
+      }
+    </div>
+  </div>
+</div>
+
+@if (previewModalOpen()) {
+  <div class="pdf-modal-backdrop" (click)="closePdfPreview()">
+    <div class="pdf-modal-container" (click)="$event.stopPropagation()">
+      <div class="pdf-modal-header">
+        <div class="modal-header-title">
+          <span class="modal-badge">Live PDF Preview</span>
+          <h3>{{ resumeData.resume().name }} — Generated Resume</h3>
+        </div>
+        <div class="modal-header-actions">
+          <button type="button" class="btn-modal-action" (click)="openInNewTab()">⧉ Open in New Tab</button>
+          <button type="button" class="btn-modal-action primary" (click)="download()">⬇ Download PDF</button>
+          <button type="button" class="btn-modal-close" (click)="closePdfPreview()" title="Close">&times;</button>
+        </div>
+      </div>
+      <div class="pdf-modal-body">
+        @if (pdfUrl()) {
+          <iframe [src]="pdfUrl()" class="pdf-frame" title="Resume PDF Preview"></iframe>
+        }
+      </div>
+    </div>
+  </div>
+}

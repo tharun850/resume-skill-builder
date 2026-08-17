@@ -1,0 +1,301 @@
+<div class="editor-card">
+  <button type="button" class="editor-toggle" (click)="toggle()">
+    <span class="edit-icon">📝</span>
+    <span class="toggle-text">Resume Profile Editor</span>
+    <span class="toggle-action">{{ isOpen() ? '(collapse)' : '(customize your resume data)' }}</span>
+  </button>
+
+  @if (isOpen()) {
+    <div class="editor-body">
+      <!-- Sub-navigation tabs -->
+      <div class="editor-tabs">
+        <button
+          type="button"
+          class="tab-btn"
+          [class.active]="activeTab() === 'personal'"
+          (click)="setTab('personal')"
+        >
+          👤 Personal &amp; Summary
+        </button>
+        <button
+          type="button"
+          class="tab-btn"
+          [class.active]="activeTab() === 'experience'"
+          (click)="setTab('experience')"
+        >
+          💼 Experience ({{ form.experience.length }})
+        </button>
+        <button
+          type="button"
+          class="tab-btn"
+          [class.active]="activeTab() === 'projects'"
+          (click)="setTab('projects')"
+        >
+          🚀 Tech Projects ({{ form.projects?.length || 0 }})
+        </button>
+        <button
+          type="button"
+          class="tab-btn"
+          [class.active]="activeTab() === 'skills'"
+          (click)="setTab('skills')"
+        >
+          ⚡ Base Skills
+        </button>
+        <button
+          type="button"
+          class="tab-btn"
+          [class.active]="activeTab() === 'education'"
+          (click)="setTab('education')"
+        >
+          🎓 Education &amp; Certs
+        </button>
+        <button
+          type="button"
+          class="tab-btn"
+          [class.active]="activeTab() === 'json'"
+          (click)="setTab('json')"
+        >
+          {{ '{ }' }} JSON Import/Export
+        </button>
+      </div>
+
+      <!-- TAB 1: Personal & Contact -->
+      @if (activeTab() === 'personal') {
+        <div class="tab-pane">
+          <div class="grid-2">
+            <div class="field-group">
+              <label class="field-label">Full Name</label>
+              <input type="text" class="field-input" [(ngModel)]="form.name" placeholder="e.g. JANE DOE" />
+            </div>
+            <div class="field-group">
+              <label class="field-label">Job Title / Headline</label>
+              <input type="text" class="field-input" [(ngModel)]="form.title" placeholder="e.g. Senior Software Engineer" />
+            </div>
+            <div class="field-group">
+              <label class="field-label">Location</label>
+              <input type="text" class="field-input" [(ngModel)]="form.location" placeholder="e.g. New York, USA" />
+            </div>
+            <div class="field-group">
+              <label class="field-label">Phone Number</label>
+              <input type="text" class="field-input" [(ngModel)]="form.phone" placeholder="e.g. +1 555-0199" />
+            </div>
+            <div class="field-group">
+              <label class="field-label">Email Address</label>
+              <input type="email" class="field-input" [(ngModel)]="form.email" placeholder="e.g. you@example.com" />
+            </div>
+            <div class="field-group">
+              <label class="field-label">LinkedIn Profile URL</label>
+              <input type="text" class="field-input" [(ngModel)]="form.linkedin" placeholder="e.g. https://linkedin.com/in/yourname" />
+            </div>
+            <div class="field-group" style="grid-column: span 2;">
+              <label class="field-label">Portfolio Website URL</label>
+              <input type="text" class="field-input" [(ngModel)]="form.portfolio" placeholder="https://tharun-portfolio-rho.vercel.app/" />
+            </div>
+          </div>
+
+          <div class="field-group" style="margin-top: 0.9rem;">
+            <label class="field-label">Professional Summary</label>
+            <textarea
+              rows="4"
+              class="field-textarea"
+              [(ngModel)]="form.summary"
+              placeholder="Write a concise 3-4 line summary of your core strengths and background..."
+            ></textarea>
+          </div>
+        </div>
+      }
+
+      <!-- TAB 2: Experience -->
+      @if (activeTab() === 'experience') {
+        <div class="tab-pane">
+          @for (exp of form.experience; track trackByIndex($index); let expIdx = $index) {
+            <div class="item-card">
+              <div class="item-card-header">
+                <span class="item-card-title">Job #{{ expIdx + 1 }}: {{ exp.title || 'Untitled Role' }} at {{ exp.company || 'Company' }}</span>
+                <button type="button" class="btn-delete" (click)="removeExperience(expIdx)" title="Remove Job">&times; Delete Job</button>
+              </div>
+
+              <div class="grid-2">
+                <div class="field-group">
+                  <label class="field-label">Job Title</label>
+                  <input type="text" class="field-input" [(ngModel)]="exp.title" placeholder="e.g. Full Stack Developer" />
+                </div>
+                <div class="field-group">
+                  <label class="field-label">Company Name</label>
+                  <input type="text" class="field-input" [(ngModel)]="exp.company" placeholder="e.g. Acme Corp" />
+                </div>
+                <div class="field-group">
+                  <label class="field-label">Employment Period</label>
+                  <input type="text" class="field-input" [(ngModel)]="exp.period" placeholder="e.g. Jan 2023 - Present" />
+                </div>
+                <div class="field-group">
+                  <label class="field-label">Location</label>
+                  <input type="text" class="field-input" [(ngModel)]="exp.location" placeholder="e.g. San Francisco, CA" />
+                </div>
+                <div class="field-group" style="grid-column: span 2;">
+                  <label class="field-label">Client / Department (Optional)</label>
+                  <input type="text" class="field-input" [(ngModel)]="exp.client" placeholder="e.g. ComPsych / Banking Division" />
+                </div>
+              </div>
+
+              <div class="bullets-section">
+                <label class="field-label">Accomplishment Bullets</label>
+                @for (bullet of exp.bullets; track trackByIndex($index); let bIdx = $index) {
+                  <div class="bullet-row">
+                    <span class="bullet-dot">&bull;</span>
+                    <textarea
+                      rows="2"
+                      class="bullet-input"
+                      [(ngModel)]="exp.bullets[bIdx]"
+                      placeholder="Describe what you built, optimized, or delivered..."
+                    ></textarea>
+                    <button type="button" class="btn-bullet-remove" (click)="removeBullet(exp, bIdx)" title="Remove bullet">&times;</button>
+                  </div>
+                }
+                <button type="button" class="btn-add-bullet" (click)="addBullet(exp)">+ Add Bullet Point</button>
+              </div>
+            </div>
+          }
+
+          <button type="button" class="btn-add-item" (click)="addExperience()">+ Add Work Experience Entry</button>
+        </div>
+      }
+
+      <!-- TAB: Tech Projects -->
+      @if (activeTab() === 'projects') {
+        <div class="tab-pane">
+          <p class="tab-hint">Configure your Tech Projects (each project has a single concise bullet line to keep your resume on 1 single page).</p>
+          @for (proj of form.projects; track trackByIndex($index); let pIdx = $index) {
+            <div class="item-card">
+              <div class="item-card-header">
+                <span class="item-card-title">Project #{{ pIdx + 1 }}: {{ proj.name || 'Untitled Project' }}</span>
+                <button type="button" class="btn-delete" (click)="removeProject(pIdx)" title="Remove Project">&times; Delete Project</button>
+              </div>
+
+              <div class="grid-2">
+                <div class="field-group">
+                  <label class="field-label">Project Title</label>
+                  <input type="text" class="field-input" [(ngModel)]="proj.name" placeholder="e.g. Resume Skill Matcher & ATS Optimizer" />
+                </div>
+                <div class="field-group">
+                  <label class="field-label">Tech Stack</label>
+                  <input type="text" class="field-input" [(ngModel)]="proj.techStack" placeholder="e.g. Angular 19, TypeScript, jsPDF, OpenAI Vision API" />
+                </div>
+                <div class="field-group" style="grid-column: span 2;">
+                  <label class="field-label">Project / Repository Link (Optional)</label>
+                  <input type="text" class="field-input" [(ngModel)]="proj.link" placeholder="e.g. https://github.com/tharun850/resume-skill-builder" />
+                </div>
+              </div>
+
+              <div class="field-group" style="margin-top: 0.4rem;">
+                <label class="field-label">Single Bullet Summary (High-Density Achievement)</label>
+                <textarea
+                  rows="2"
+                  class="field-textarea"
+                  [(ngModel)]="proj.bullet"
+                  placeholder="Engineered a client-side Angular app using Signals and jsPDF to extract missing job portal skills..."
+                ></textarea>
+              </div>
+            </div>
+          }
+
+          <button type="button" class="btn-add-item" (click)="addProject()">+ Add Tech Project</button>
+        </div>
+      }
+
+      <!-- TAB 3: Base Skills -->
+      @if (activeTab() === 'skills') {
+        <div class="tab-pane">
+          <p class="tab-hint">Enter your baseline skills separated by commas. Newly scanned skills will merge seamlessly with these.</p>
+          <div class="field-group">
+            <textarea
+              rows="6"
+              class="field-textarea"
+              [(ngModel)]="skillsText"
+              placeholder="Java, Spring Boot, Angular, TypeScript, Docker, Git, AWS..."
+            ></textarea>
+          </div>
+        </div>
+      }
+
+      <!-- TAB 4: Education & Certifications -->
+      @if (activeTab() === 'education') {
+        <div class="tab-pane">
+          <h3 class="subheading">Education</h3>
+          @for (edu of form.education; track trackByIndex($index); let eduIdx = $index) {
+            <div class="item-card">
+              <div class="item-card-header">
+                <span class="item-card-title">Education #{{ eduIdx + 1 }}</span>
+                <button type="button" class="btn-delete" (click)="removeEducation(eduIdx)">&times; Remove</button>
+              </div>
+              <div class="grid-2">
+                <div class="field-group">
+                  <label class="field-label">Degree / Field</label>
+                  <input type="text" class="field-input" [(ngModel)]="edu.degree" placeholder="e.g. B.Tech, Computer Science" />
+                </div>
+                <div class="field-group">
+                  <label class="field-label">School / University</label>
+                  <input type="text" class="field-input" [(ngModel)]="edu.school" placeholder="e.g. University Name" />
+                </div>
+                <div class="field-group" style="grid-column: span 2;">
+                  <label class="field-label">GPA / Dates / Honors</label>
+                  <input type="text" class="field-input" [(ngModel)]="edu.detail" placeholder="e.g. GPA: 3.8 / 4.0 | 2018 - 2022" />
+                </div>
+              </div>
+            </div>
+          }
+          <button type="button" class="btn-add-item" (click)="addEducation()">+ Add Education Entry</button>
+
+          <h3 class="subheading" style="margin-top: 1.5rem;">Certifications</h3>
+          @for (cert of form.certifications; track trackByIndex($index); let cIdx = $index) {
+            <div class="item-card">
+              <div class="item-card-header">
+                <span class="item-card-title">Certification #{{ cIdx + 1 }}</span>
+                <button type="button" class="btn-delete" (click)="removeCertification(cIdx)">&times; Remove</button>
+              </div>
+              <div class="grid-2">
+                <div class="field-group">
+                  <label class="field-label">Certification Name</label>
+                  <input type="text" class="field-input" [(ngModel)]="cert.name" placeholder="e.g. AWS Certified Solutions Architect" />
+                </div>
+                <div class="field-group">
+                  <label class="field-label">Issue Date / Credential ID</label>
+                  <input type="text" class="field-input" [(ngModel)]="cert.detail" placeholder="e.g. Issued Nov 2023" />
+                </div>
+              </div>
+            </div>
+          }
+          <button type="button" class="btn-add-item" (click)="addCertification()">+ Add Certification Entry</button>
+        </div>
+      }
+
+      <!-- TAB 5: JSON Import/Export -->
+      @if (activeTab() === 'json') {
+        <div class="tab-pane">
+          <p class="tab-hint">Directly edit, backup, or paste your entire resume structure as JSON.</p>
+          @if (jsonError()) {
+            <div class="json-error-banner">⚠️ {{ jsonError() }}</div>
+          }
+          <textarea rows="12" class="field-textarea code-font" [(ngModel)]="jsonText"></textarea>
+          <div class="json-actions">
+            <button type="button" class="btn-json-action" (click)="copyJson()">📋 Copy JSON</button>
+            <button type="button" class="btn-json-action primary" (click)="applyJson()">💾 Apply &amp; Save JSON</button>
+          </div>
+        </div>
+      }
+
+      <!-- Footer action bar -->
+      <div class="editor-footer">
+        <div class="footer-left">
+          <button type="button" class="btn-primary-save" (click)="save()">💾 Save Resume Profile</button>
+          @if (savedMessage()) {
+            <span class="saved-badge">✓ Saved to browser storage</span>
+          }
+        </div>
+        <div class="footer-right">
+          <button type="button" class="btn-reset-danger" (click)="resetToDefault()">Reset to Sample Template</button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

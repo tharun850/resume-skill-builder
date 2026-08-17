@@ -1,0 +1,12 @@
+{
+  "name": "resume-skill-builder",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Scan missing job portal skills from screenshots, update your resume, and download an ATS-friendly PDF.",
+  "scripts": {
+    "start": "npm --prefix app start",
+    "build": "npm --prefix app run build",
+    "test": "npm --prefix app test",
+    "deploy": "npm --prefix app run deploy"
+  }
+}
