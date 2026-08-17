@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "deploy": "ng build --configuration production --base-href \"/skill-resume-builder/\" && npx angular-cli-ghpages --dir=dist/app/browser"
+    "deploy": "ng build --configuration production --base-href \"/resume-skill-builder/\" && npx angular-cli-ghpages --dir=dist/app/browser"
   },
   "private": true,
   "dependencies": {
