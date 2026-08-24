@@ -111,7 +111,7 @@ export class PdfGeneratorService {
       });
     };
 
-    const renderBoldLead = (bold: string, rest: string, fontSize = bodySize): void => {
+    const renderBoldLead = (bold: string, rest: string, fontSize = bodySize, linkUrl: string | null = null): void => {
       const sSize = fontSize * scale;
       const lh = lhMm(fontSize, bodyLeading);
       if (y + lh > PAGE_HEIGHT - MARGIN_BOTTOM) {
@@ -128,10 +128,16 @@ export class PdfGeneratorService {
 
       doc.setFont('helvetica', 'normal');
       doc.text(rest, MARGIN_X + boldWidth, y);
+
+      if (linkUrl) {
+        const restWidth = doc.getTextWidth(rest);
+        const linkH = sSize * PT_TO_MM;
+        doc.link(MARGIN_X + boldWidth, y - linkH * 1.05, restWidth, linkH * 1.4, { url: linkUrl });
+      }
     };
 
-    line(resume.name, 17.5, NAVY, { bold: true, align: 'center', leading: 1.15 });
-    line(resume.title, 9.8, BLACK, { bold: true, align: 'center', leading: 1.20, extraGapAfter: 0.3 });
+    line(resume.name, 16.5, NAVY, { bold: true, align: 'center', leading: 1.15 });
+    line(resume.title, 9.2, BLACK, { bold: true, align: 'center', leading: 1.18, extraGapAfter: 0.2 });
 
     interface ContactToken {
       label: string;
@@ -147,17 +153,13 @@ export class PdfGeneratorService {
     if (resume.linkedin) {
       const cleanLinkedin = resume.linkedin.trim();
       const linkUrl = cleanLinkedin.startsWith('http') ? cleanLinkedin : `https://${cleanLinkedin}`;
-      tokens.push({ label: 'LinkedIn', url: linkUrl });
-    }
-    if (resume.portfolio) {
-      const cleanPort = resume.portfolio.trim();
-      const portUrl = cleanPort.startsWith('http') ? cleanPort : `https://${cleanPort}`;
-      tokens.push({ label: 'Portfolio', url: portUrl });
+      const label = cleanLinkedin.replace(/^https?:\/\/(www\.)?/, '');
+      tokens.push({ label: label, url: linkUrl });
     }
 
-    const cFontSize = 8.8 * scale;
-    const cLh = lhMm(8.8, 1.20);
-    y += cLh + 0.6 * scale;
+    const cFontSize = 8.2 * scale;
+    const cLh = lhMm(8.2, 1.18);
+    y += cLh + 0.4 * scale;
     const separator = '  •  ';
     doc.setFontSize(cFontSize);
     doc.setFont('helvetica', 'normal');
@@ -184,12 +186,12 @@ export class PdfGeneratorService {
         curX += sepWidth;
       }
     }
-    y += 1.4 * scale;
+    y += 1.0 * scale;
 
     doc.setDrawColor(...NAVY);
-    doc.setLineWidth(0.4);
+    doc.setLineWidth(0.35);
     doc.line(MARGIN_X, y, PAGE_WIDTH - MARGIN_X, y);
-    y += 1.8 * scale;
+    y += 1.4 * scale;
 
     renderSection('PROFESSIONAL SUMMARY');
     doc.setFont('helvetica', 'normal');
@@ -199,22 +201,22 @@ export class PdfGeneratorService {
 
     renderSection('PROFESSIONAL EXPERIENCE');
     for (const exp of resume.experience) {
-      y += 0.7 * scale;
-      line(`${exp.title} — ${exp.company}`, 9.4, BLACK, { bold: true, leading: 1.20 });
-      const meta = [exp.period, exp.location, exp.client ? `Client: ${exp.client}` : null].filter(Boolean).join(' | ');
-      line(meta, 8.4, MIDGRAY, { italic: true, leading: 1.20, extraGapAfter: 0.2 });
+      y += 0.4 * scale;
+      line(`${exp.title} — ${exp.company}`, 8.8, BLACK, { bold: true, leading: 1.18 });
+      const meta = [exp.client ? `Client: ${exp.client}` : null, exp.location, exp.period].filter(Boolean).join(' • ');
+      line(meta, 7.8, MIDGRAY, { italic: true, leading: 1.18, extraGapAfter: 0.1 });
       for (const b of exp.bullets) {
         renderBullet(b, bodySize);
       }
-      y += 0.7 * scale;
+      y += 0.4 * scale;
     }
 
     if (resume.projects && resume.projects.length > 0) {
       renderSection('TECH PROJECTS');
       for (const proj of resume.projects) {
-        y += 0.5 * scale;
-        const titleFontSize = 9.0 * scale;
-        const titleLh = lhMm(9.0, 1.20);
+        y += 0.4 * scale;
+        const titleFontSize = 8.8 * scale;
+        const titleLh = lhMm(8.8, 1.20);
         y += titleLh;
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(titleFontSize);
@@ -244,22 +246,31 @@ export class PdfGeneratorService {
         if (proj.bullet) {
           renderBullet(proj.bullet, bodySize);
         }
-        y += 0.5 * scale;
+        y += 0.4 * scale;
       }
     }
 
     renderSection('TECHNICAL SKILLS');
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(bodySize * scale);
-    const wrappedSkills = doc.splitTextToSize(resume.skills.join(', '), CONTENT_WIDTH);
+    const skillsStr = Array.isArray(resume.skills) ? resume.skills.join(', ') : resume.skills;
+    const wrappedSkills = doc.splitTextToSize(skillsStr, CONTENT_WIDTH);
     wrappedSkills.forEach((l: string) => line(l, bodySize, DARKGRAY, { leading: bodyLeading }));
 
-    renderSection('EDUCATION & CERTIFICATIONS');
+    renderSection('EDUCATION');
     for (const edu of resume.education) {
-      renderBoldLead(edu.degree, ` — ${edu.school} (${edu.detail})`, bodySize + 0.2);
+      renderBoldLead(edu.degree, ` — ${edu.school} • ${edu.detail}`, bodySize + 0.1);
     }
+
+    renderSection('CERTIFICATIONS');
     for (const cert of resume.certifications) {
-      renderBoldLead(cert.name, cert.detail ? ` (${cert.detail})` : '', bodySize + 0.2);
+      renderBoldLead(cert.name, cert.detail ? ` • ${cert.detail}` : '', bodySize + 0.1);
+    }
+
+    if (resume.portfolio) {
+      renderSection('PORTFOLIO');
+      const portUrl = resume.portfolio.trim().startsWith('http') ? resume.portfolio.trim() : `https://${resume.portfolio.trim()}`;
+      renderBoldLead('Interactive Portfolio:', ` ${resume.portfolio}`, bodySize + 0.1, portUrl);
     }
 
     return doc;

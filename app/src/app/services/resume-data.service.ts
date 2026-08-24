@@ -5,86 +5,64 @@ const STORAGE_KEY = 'skill-resume-builder:custom-resume';
 
 export const BASE_RESUME: ResumeData = {
   name: 'THARUN KUMAR DODDI',
-  title: 'Senior Java Full-Stack Engineer | Spring Boot, Angular, Microservices, Kafka',
+  title: 'Full Stack Developer • Java | Spring Boot | Angular',
   location: 'Hyderabad, India',
   phone: '+91 7416186364',
   email: 'tharunkumar850@gmail.com',
-  linkedin: 'https://linkedin.com/in/tharun-full-stack-developer/',
+  linkedin: 'https://linkedin.com/in/tharun-full-stack-developer',
   portfolio: 'https://tharun-portfolio-rho.vercel.app/',
   summary:
-    'Full-Stack Software Engineer with 4+ years of hands-on experience engineering distributed enterprise systems across healthcare (ComPsych) and financial services (Citi Bank). Specialized in Java 21, Spring Boot microservices, Angular Signals, Apache Kafka event streaming, and Apache Ignite caching with a proven track record of reducing critical path latency by 70%.',
+    'Full Stack Developer with 4.4 years of experience building enterprise-grade distributed systems and web applications using Java, Spring Boot, and Angular. Experienced in microservices, Kubernetes/Docker, distributed caching with Redis and Apache Ignite, resilient transaction workflows using Saga and CQRS, and secure authentication with SAML 2.0, OAuth 2.0, and JWT. Strong background in REST/SOAP modernization, Java 11–21 migrations, Angular Signals, CI/CD, automated testing, and AI integrations using Model Context Protocol (MCP) and LLM APIs.',
   experience: [
     {
-      title: 'Senior Java Full Stack Developer',
-      company: 'IntouchCX',
-      period: 'Jan 2025 - Present',
+      title: 'Senior Full Stack Developer',
+      company: 'InTouchCX',
+      period: 'Jan 2025 – Present',
       location: 'Hyderabad, India',
       client: 'ComPsych',
       bullets: [
-        'Engineered responsive full-stack modules using Angular Signals and Spring Boot, establishing modular RESTful contracts and securing OAuth2/JWT workflows.',
-        'Secured web applications with OAuth2 and custom Angular HTTP interceptors for transparent JWT rotation; designed JPA data layers on MS SQL Server with optimized indexing.',
-        'Built complex workflows with Angular Reactive Forms and Signals, using Route Resolvers to preload domain models and minimize UI flicker.',
-        'Led the migration from legacy SOAP WebServices to high-performance REST APIs, eliminating XML overhead and standardizing payload schemas.',
-        'Re-architected distributed caching with Apache Ignite for high-read reference data and session persistence, improving pipeline throughput.',
-        'Upgraded enterprise runtime infrastructure from JBoss 7 / Java 11 to JBoss 8 / Java 21 with zero system downtime during cutover.',
-        'Automated CI/CD build pipelines using Docker and Jenkins with comprehensive Karma, Jasmine, and Selenium automated test suites.',
-        'Conducted peer code reviews, established API contract standards, and collaborated with cross-functional product teams in agile sprints.',
+        'Implemented enterprise SAML 2.0 SSO with Okta, Google OAuth 2.0, and On-Behalf-Of delegation, with Angular HTTP interceptors supporting silent JWT token refresh.',
+        'Strengthened authentication workflows by integrating Cloudflare Turnstile to protect login entry points against automated bots and credential-stuffing attacks.',
+        'Built Spring AOP aspects for REST add/update operations to profile latency and enforce optimistic concurrency through createdOn/modifiedOn timestamp validation.',
+        'Exposed backend REST capabilities to LLMs through Model Context Protocol (MCP), integrating an enterprise AI chatbot within strict firewall execution boundaries.',
+        'Modernized legacy services by migrating SOAP APIs to REST, upgrading JBoss EAP 7 to 8, and moving the core runtime from Java 11 to Java 21.',
+        'Improved REST-layer data access with Apache Ignite distributed caching, reducing repeated database access and supporting higher concurrent throughput.',
+        'Developed dynamic Angular reactive forms using Signals, Route Resolvers, Route Guards, HTTP Interceptors, and Decorator patterns for responsive enterprise workflows.',
+        'Established Jenkins CI/CD and SonarQube quality gates with nglint pre-commit checks, maintaining ≥85% unit test coverage using Karma and Jasmine.',
+        'Implemented API and authentication versioning to transition legacy container-based login flows to a decoupled service-based authentication architecture.',
       ],
     },
     {
-      title: 'Full Stack Developer',
-      company: 'Virtusa Consulting Services',
-      period: 'Jun 2022 - Jan 2025',
+      title: 'Software Engineer',
+      company: 'Virtusa',
+      period: 'Jun 2022 – Jan 2025',
       location: 'Hyderabad, India',
-      client: 'Citi Bank',
+      client: 'Citibank',
       bullets: [
-        'Built real-time Kafka event streaming pipelines to decouple loan-origination ingestion from risk calculation engines, slashing processing latency by 70%.',
-        'Implemented high-throughput data aggregation pipelines using Java Stream API and Apache Commons Diff-Builder to reconcile multi-source banking feeds.',
-        'Created custom reflection-based entity mapping utilities to dynamically bind non-standard legacy database formats to Spring domain models.',
-        'Standardized a reusable validation framework using custom Java annotations, adopted across 4 engineering teams to enforce uniform business rules.',
-        'Designed resilient Spring Boot microservices with Spring Cloud Gateway and Eureka service discovery, reliably handling peak loan volumes.',
-        'Authored AWS Lambda triggers to auto-scale compute instances during intraday traffic spikes, optimizing cloud resource costs.',
+        'Built a multi-tenant Spring Boot platform on Docker and Kubernetes, routing APAC, EMEA, and NAM traffic with isolated databases, Redis caching, and JWT validation.',
+        'Implemented Resilience4j circuit breakers and fallbacks to improve service availability and provide graceful degradation during upstream multi-region failures.',
+        'Applied Saga, CQRS, and CAP principles to distributed workflows and transaction propagation, with Hibernate L1/L2 caching for persistence optimization.',
+        'Developed enterprise loan-processing workflows using Maker-Checker authorization to enforce dual-control compliance and auditability.',
+        'Reconciled DEV, SIT, UAT, and Production baselines through production artifact analysis, regression testing, and automated branch-merging workflows.',
+        'Built an enterprise loan version-comparison framework with Apache Commons DiffBuilder and an interactive UI for reviewing historical application differences.',
+        'Engineered a custom annotation-driven ORM, validation, and derivation framework using Java Reflection API for legacy systems without Hibernate; configured Kafka for asynchronous batch processing.',
+        'Optimized SQL queries, views, stored procedures, and functions; configured HAProxy load balancing and built integration tests with Mockito, MockMvc, Testcontainers, and WireMock.',
       ],
     },
   ],
-  projects: [
-    {
-      name: 'Resume Skill Matcher & ATS Optimizer',
-      techStack: 'Angular 19, TypeScript, OpenAI Vision API, GenAI Integration, jsPDF',
-      link: 'https://github.com/tharun850/resume-skill-builder',
-      bullet: 'Engineered a GenAI application integrating OpenAI Vision API and Signals to extract missing job portal skills from screenshots and generate single-page vector PDFs.',
-    },
-    {
-      name: 'Full-Stack Portfolio Application',
-      techStack: 'Angular, Node.js, Cloudflare Turnstile, Resend API, Vercel Serverless',
-      link: 'https://github.com/tharun850/tharun-portfolio',
-      bullet: 'Architected a responsive portfolio integrating Cloudflare Turnstile anti-bot verification, Resend transactional email API, and Vercel Edge Serverless functions.',
-    },
-    {
-      name: 'Llama Edge AI Control Center',
-      techStack: 'Python, Llama LLM, FastAPI, Docker, IoT Edge, PyTorch',
-      link: 'https://github.com/tharun850/llama-pi-control-center',
-      bullet: 'Built an Edge AI control center running quantized local Llama LLMs with FastAPI for private offline inference, device automation, and real-time telemetry.',
-    },
-  ],
+  projects: [],
   skills: [
-    'Java 21', 'JavaScript', 'TypeScript', 'Python',
-    'Angular', 'Reactive Forms', 'Angular Signals', 'Route Resolvers', 'HTTP Interceptors',
-    'Spring Boot', 'Spring Cloud', 'Spring Security', 'Spring Data JPA', 'RESTful APIs', 'JWT', 'OAuth2',
-    'Microservices', 'Event-Driven Architecture', 'Distributed Caching', 'SOAP-to-REST Migration',
-    'Apache Kafka', 'Apache Ignite', 'MS SQL Server', 'MySQL', 'Oracle PL/SQL',
-    'JUnit', 'Mockito', 'Karma', 'Jasmine', 'Selenium',
-    'Docker', 'Jenkins', 'CI/CD', 'Git', 'AWS',
+    'Java', 'Spring Boot', 'Spring MVC', 'Spring AOP', 'Spring Security', 'Microservices', 'Angular', 'TypeScript', 'JavaScript', 'HTML5', 'CSS3', 'Java 8', 'Java 11', 'Java 17', 'Java 21', 'Docker', 'Kubernetes (K8s)', 'Redis', 'Apache Kafka', 'Apache Ignite', 'Hibernate / JPA (L1 & L2 Caching)', 'Transaction Propagation', 'RESTful APIs', 'SOAP Web Services', 'PostgreSQL', 'SQL (Views, Stored Procedures, Functions)', 'Resilience4j', 'SAML 2.0 (Okta SSO)', 'Google OAuth 2.0', 'Cloudflare Turnstile', 'JWT', 'Model Context Protocol (MCP)', 'LLM API Integration', 'Enterprise AI Chatbots', 'Reactive Forms', 'Angular Signals', 'RxJS', 'Route Resolvers', 'Route Guards', 'HTTP Interceptors', 'Saga Pattern', 'CQRS', 'CAP Theorem', 'SOLID Principles', 'Design Patterns (Decorator, Factory)', 'Maker-Checker Architecture', 'Optimistic Locking', 'Multithreading', 'SonarQube', 'nglint', 'HAProxy', 'JBoss EAP 7/8', 'Testcontainers', 'WireMock', 'Mockito (MockMvc)', 'JUnit', 'Karma', 'Jasmine', 'Jenkins CI/CD', 'Git', 'Maven', 'Java Reflection API', 'Apache DiffBuilder', 'API Versioning'
   ],
   education: [
     {
-      degree: 'B.Tech, Engineering',
-      school: 'JNTUK, University College of Engineering, Narasaraopet',
-      detail: 'GPA: 7.25 / 10.0 | Jun 2018 - Jun 2022',
+      degree: 'Bachelor of Technology (B.Tech)',
+      school: 'Jawaharlal Nehru Technological University Kakinada (JNTUK)',
+      detail: '2018 – 2022 • CGPA: 7.5 / 10',
     },
   ],
   certifications: [
-    { name: 'Oracle Certified Associate, Java SE 8 Programmer', detail: 'Nov 2022' },
+    { name: 'Oracle Certified Professional: Java SE 8 Programmer', detail: 'Nov 2022 • No Expiry' },
   ],
 };
 
@@ -98,8 +76,8 @@ export class ResumeDataService {
       if (stored) {
         const parsed = JSON.parse(stored);
         if (parsed && parsed.name && Array.isArray(parsed.skills)) {
-          if (!parsed.projects || parsed.projects.length === 0) {
-            parsed.projects = structuredClone(BASE_RESUME.projects);
+          if (parsed.email === 'tonitharun@gmail.com' || !parsed.experience?.[0]?.bullets?.some((b: string) => b.includes('SAML 2.0'))) {
+            return structuredClone(BASE_RESUME);
           }
           return parsed;
         }
