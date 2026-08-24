@@ -28,7 +28,7 @@ export const BASE_RESUME: ResumeData = {
         'Modernized legacy services by migrating SOAP APIs to REST, upgrading JBoss EAP 7 to 8, and moving the core runtime from Java 11 to Java 21.',
         'Improved REST-layer data access with Apache Ignite distributed caching, reducing repeated database access and supporting higher concurrent throughput.',
         'Developed dynamic Angular reactive forms using Signals, Route Resolvers, Route Guards, HTTP Interceptors, and Decorator patterns for responsive enterprise workflows.',
-        'Established Jenkins CI/CD and SonarQube quality gates with nglint pre-commit checks, maintaining ≥85% unit test coverage using Karma and Jasmine.',
+        'Established Jenkins CI/CD and SonarQube quality gates with nglint pre-commit checks, maintaining 85% unit test coverage using Karma and Jasmine.',
         'Implemented API and authentication versioning to transition legacy container-based login flows to a decoupled service-based authentication architecture.',
       ],
     },
