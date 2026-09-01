@@ -20,6 +20,7 @@ export const BASE_RESUME: ResumeData = {
       period: 'Jan 2025 – Present',
       location: 'Hyderabad, India',
       client: 'ComPsych',
+      bullets: [
         'Implemented Single Sign-On (SSO) within the application alongside Google OAuth 2.0, including On-Behalf-Of delegation and Angular HTTP interceptors for silent JWT token refresh, removing manual re-authentication interruptions for end users.',
         'Integrated Cloudflare Turnstile at login entry points, delivering a significant reduction in automated bot traffic and credential-stuffing attempts against authentication endpoints.',
         'Built Spring AOP aspects to profile latency on REST add/update operations, surfacing slow downstream service calls and database procedures, and enforcing optimistic concurrency via createdOn/modifiedOn validation.',
