@@ -12,7 +12,7 @@ export const BASE_RESUME: ResumeData = {
   linkedin: 'https://linkedin.com/in/tharun-full-stack-developer',
   portfolio: 'https://tharun-portfolio-rho.vercel.app',
   summary:
-    'Full Stack Developer with 4.5+ years of experience building enterprise-grade distributed systems and web applications using Java, Spring Boot, and Angular. Skilled in microservices, Docker/Kubernetes, distributed caching (Redis, Apache Ignite), resilient transaction workflows (Saga, CQRS), event-driven architecture with Apache Kafka, and secure authentication (OAuth 2.0, JWT, SSO). Proven record modernizing legacy REST/SOAP systems, leading zero-downtime Java 11→21 migrations, and driving measurable gains in throughput, latency, and test coverage.',
+    'Full Stack Developer with 4.5+ years of experience building enterprise-grade distributed systems and web applications using Java, Spring Boot, and Angular. Skilled in microservices, Docker/Kubernetes, distributed caching (Redis, Apache Ignite), resilient transaction workflows (Saga, CQRS), event-driven architecture with Apache Kafka, and secure authentication (OAuth 2.0, JWT, SSO). Proven record modernizing legacy REST/SOAP systems, leading zero-downtime Java 11–21 migrations, and driving measurable gains in throughput, latency, and test coverage.',
   experience: [
     {
       title: 'Senior Full Stack Developer',

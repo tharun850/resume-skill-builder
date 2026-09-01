@@ -14,6 +14,14 @@ const BLACK: [number, number, number] = [15, 23, 42];
 
 const PT_TO_MM = 0.3528;
 
+function cleanText(text: string): string {
+  if (!text) return '';
+  return text
+    .replace(/→/g, '–')
+    .replace(/[\u2018\u2019]/g, "'")
+    .replace(/[\u201C\u201D]/g, '"');
+}
+
 @Injectable({ providedIn: 'root' })
 export class PdfGeneratorService {
   buildPdf(resume: ResumeData): jsPDF {
@@ -71,9 +79,9 @@ export class PdfGeneratorService {
       doc.setTextColor(...color);
 
       if (opts.align === 'center') {
-        doc.text(text, PAGE_WIDTH / 2, y, { align: 'center' });
+        doc.text(cleanText(text), PAGE_WIDTH / 2, y, { align: 'center' });
       } else {
-        doc.text(text, MARGIN_X, y);
+        doc.text(cleanText(text), MARGIN_X, y);
       }
 
       if (opts.extraGapAfter) y += opts.extraGapAfter * scale;
@@ -88,11 +96,13 @@ export class PdfGeneratorService {
       y += 1.4 * scale;
     };
 
+    const WRAP_WIDTH = CONTENT_WIDTH - 1.5;
+
     const renderBullet = (text: string, fontSize = bodySize): void => {
       const sSize = fontSize * scale;
       doc.setFontSize(sSize);
       const bulletIndent = 3.4;
-      const wrapped = doc.splitTextToSize(text, CONTENT_WIDTH - bulletIndent);
+      const wrapped = doc.splitTextToSize(cleanText(text), WRAP_WIDTH - bulletIndent);
 
       wrapped.forEach((wLine: string, i: number) => {
         const lh = lhMm(fontSize, bodyLeading);
@@ -109,31 +119,6 @@ export class PdfGeneratorService {
         }
         doc.text(wLine, MARGIN_X + bulletIndent, y);
       });
-    };
-
-    const renderBoldLead = (bold: string, rest: string, fontSize = bodySize, linkUrl: string | null = null): void => {
-      const sSize = fontSize * scale;
-      const lh = lhMm(fontSize, bodyLeading);
-      if (y + lh > PAGE_HEIGHT - MARGIN_BOTTOM) {
-        doc.addPage();
-        y = MARGIN_TOP;
-      }
-      y += lh;
-
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(sSize);
-      doc.setTextColor(...DARKGRAY);
-      doc.text(bold, MARGIN_X, y);
-      const boldWidth = doc.getTextWidth(bold);
-
-      doc.setFont('helvetica', 'normal');
-      doc.text(rest, MARGIN_X + boldWidth, y);
-
-      if (linkUrl) {
-        const restWidth = doc.getTextWidth(rest);
-        const linkH = sSize * PT_TO_MM;
-        doc.link(MARGIN_X + boldWidth, y - linkH * 1.05, restWidth, linkH * 1.4, { url: linkUrl });
-      }
     };
 
     line(resume.name, 16.5, NAVY, { bold: true, align: 'center', leading: 1.15 });
@@ -154,7 +139,7 @@ export class PdfGeneratorService {
     const renderTokenRow = (rowTokens: ContactToken[]): void => {
       if (rowTokens.length === 0) return;
       y += cLh + 0.3 * scale;
-      const itemWidths = rowTokens.map((t) => doc.getTextWidth(t.label));
+      const itemWidths = rowTokens.map((t) => doc.getTextWidth(cleanText(t.label)));
       const totalWidth = itemWidths.reduce((a, b) => a + b, 0) + sepWidth * (rowTokens.length - 1);
       let curX = (PAGE_WIDTH - totalWidth) / 2;
       for (let i = 0; i < rowTokens.length; i++) {
@@ -162,7 +147,7 @@ export class PdfGeneratorService {
         const w = itemWidths[i];
         doc.setFont('helvetica', 'normal');
         doc.setTextColor(...DARKGRAY);
-        doc.text(t.label, curX, y);
+        doc.text(cleanText(t.label), curX, y);
         if (t.url) {
           doc.link(curX, y - textHeight * 1.05, w, textHeight * 1.4, { url: t.url });
         }
@@ -210,7 +195,7 @@ export class PdfGeneratorService {
     renderSection('PROFESSIONAL SUMMARY');
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(bodySize * scale);
-    const wrappedSummary = doc.splitTextToSize(resume.summary, CONTENT_WIDTH);
+    const wrappedSummary = doc.splitTextToSize(cleanText(resume.summary), WRAP_WIDTH);
     wrappedSummary.forEach((l: string) => line(l, bodySize, DARKGRAY, { leading: bodyLeading }));
 
     renderSection('PROFESSIONAL EXPERIENCE');
@@ -235,8 +220,8 @@ export class PdfGeneratorService {
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(titleFontSize);
         doc.setTextColor(...BLACK);
-        doc.text(proj.name, MARGIN_X, y);
-        let offset = doc.getTextWidth(proj.name);
+        doc.text(cleanText(proj.name), MARGIN_X, y);
+        let offset = doc.getTextWidth(cleanText(proj.name));
 
         if (proj.link) {
           const rawLink = proj.link.trim();
@@ -254,7 +239,7 @@ export class PdfGeneratorService {
         if (proj.techStack) {
           doc.setFont('helvetica', 'italic');
           doc.setTextColor(...MIDGRAY);
-          doc.text(` | ${proj.techStack}`, MARGIN_X + offset, y);
+          doc.text(` | ${cleanText(proj.techStack)}`, MARGIN_X + offset, y);
         }
 
         if (proj.bullet) {
@@ -268,17 +253,73 @@ export class PdfGeneratorService {
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(bodySize * scale);
     const skillsStr = Array.isArray(resume.skills) ? resume.skills.join(', ') : resume.skills;
-    const wrappedSkills = doc.splitTextToSize(skillsStr, CONTENT_WIDTH);
+    const wrappedSkills = doc.splitTextToSize(cleanText(skillsStr), WRAP_WIDTH);
     wrappedSkills.forEach((l: string) => line(l, bodySize, DARKGRAY, { leading: bodyLeading }));
 
     renderSection('EDUCATION');
     for (const edu of resume.education) {
-      renderBoldLead(edu.degree, ` — ${edu.school} • ${edu.detail}`, bodySize + 0.1);
+      y += 0.3 * scale;
+      const yearMatch = edu.detail.match(/\b(19|20)\d{2}\s*[–—-]\s*(19|20)\d{2}\b/);
+      const yearStr = yearMatch ? yearMatch[0].replace(/—/g, '–') : '';
+      const otherDetail = edu.detail.replace(/\b(19|20)\d{2}\s*[–—-]\s*(19|20)\d{2}\b/, '').replace(/^[•\s|–—]+|[•\s|–—]+$/g, '').trim();
+
+      const degFontSize = 8.8 * scale;
+      const degLh = lhMm(8.8, 1.18);
+      if (y + degLh > PAGE_HEIGHT - MARGIN_BOTTOM) {
+        doc.addPage();
+        y = MARGIN_TOP;
+      }
+      y += degLh;
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(degFontSize);
+      doc.setTextColor(...BLACK);
+      doc.text(cleanText(edu.degree), MARGIN_X, y);
+
+      if (yearStr) {
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(degFontSize);
+        doc.setTextColor(...DARKGRAY);
+        doc.text(yearStr, PAGE_WIDTH - MARGIN_X, y, { align: 'right' });
+      }
+
+      const line2Text = [edu.school, otherDetail].filter(Boolean).join(' — ');
+      if (line2Text) {
+        const subFontSize = 8.4 * scale;
+        const subLh = lhMm(8.4, 1.18);
+        if (y + subLh > PAGE_HEIGHT - MARGIN_BOTTOM) {
+          doc.addPage();
+          y = MARGIN_TOP;
+        }
+        y += subLh;
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(subFontSize);
+        doc.setTextColor(...DARKGRAY);
+        doc.text(cleanText(line2Text), MARGIN_X, y);
+      }
+      y += 0.3 * scale;
     }
 
     renderSection('CERTIFICATIONS');
     for (const cert of resume.certifications) {
-      renderBoldLead(cert.name, cert.detail ? ` • ${cert.detail}` : '', bodySize + 0.1);
+      y += 0.3 * scale;
+      const certFontSize = 8.8 * scale;
+      const certLh = lhMm(8.8, 1.18);
+      if (y + certLh > PAGE_HEIGHT - MARGIN_BOTTOM) {
+        doc.addPage();
+        y = MARGIN_TOP;
+      }
+      y += certLh;
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(certFontSize);
+      doc.setTextColor(...DARKGRAY);
+      doc.text(cleanText(cert.name), MARGIN_X, y);
+      if (cert.detail) {
+        const nameW = doc.getTextWidth(cleanText(cert.name));
+        doc.setFont('helvetica', 'normal');
+        doc.text(` — ${cleanText(cert.detail)}`, MARGIN_X + nameW, y);
+      }
+      y += 0.3 * scale;
     }
 
     return doc;
