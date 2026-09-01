@@ -5,31 +5,29 @@ const STORAGE_KEY = 'skill-resume-builder:custom-resume';
 
 export const BASE_RESUME: ResumeData = {
   name: 'THARUN KUMAR DODDI',
-  title: 'Full Stack Developer • Java | Spring Boot | Angular',
+  title: 'FULL STACK DEVELOPER — JAVA | SPRING BOOT | ANGULAR',
   location: 'Hyderabad, India',
   phone: '+91 7416186364',
   email: 'tharunkumar850@gmail.com',
   linkedin: 'https://linkedin.com/in/tharun-full-stack-developer',
-  portfolio: 'https://tharun-portfolio-rho.vercel.app/',
+  portfolio: 'https://tharun-portfolio-rho.vercel.app',
   summary:
-    'Full Stack Developer with 4.4 years of experience building enterprise-grade distributed systems and web applications using Java, Spring Boot, and Angular. Experienced in microservices, Kubernetes/Docker, distributed caching with Redis and Apache Ignite, resilient transaction workflows using Saga and CQRS, and secure authentication with SAML 2.0, OAuth 2.0, and JWT. Strong background in REST/SOAP modernization, Java 11–21 migrations, Angular Signals, CI/CD, automated testing, and AI integrations using Model Context Protocol (MCP) and LLM APIs.',
+    'Full Stack Developer with 4.5+ years of experience building enterprise-grade distributed systems and web applications using Java, Spring Boot, and Angular. Skilled in microservices, Docker/Kubernetes, distributed caching (Redis, Apache Ignite), resilient transaction workflows (Saga, CQRS), event-driven architecture with Apache Kafka, and secure authentication (OAuth 2.0, JWT, SSO). Proven record modernizing legacy REST/SOAP systems, leading zero-downtime Java 11→21 migrations, and driving measurable gains in throughput, latency, and test coverage.',
   experience: [
     {
       title: 'Senior Full Stack Developer',
-      company: 'InTouchCX',
+      company: 'IntouchCX',
       period: 'Jan 2025 – Present',
       location: 'Hyderabad, India',
       client: 'ComPsych',
-      bullets: [
-        'Implemented enterprise SAML 2.0 SSO with Okta, Google OAuth 2.0, and On-Behalf-Of delegation, with Angular HTTP interceptors supporting silent JWT token refresh.',
-        'Strengthened authentication workflows by integrating Cloudflare Turnstile to protect login entry points against automated bots and credential-stuffing attacks.',
-        'Built Spring AOP aspects for REST add/update operations to profile latency and enforce optimistic concurrency through createdOn/modifiedOn timestamp validation.',
-        'Exposed backend REST capabilities to LLMs through Model Context Protocol (MCP), integrating an enterprise AI chatbot within strict firewall execution boundaries.',
-        'Modernized legacy services by migrating SOAP APIs to REST, upgrading JBoss EAP 7 to 8, and moving the core runtime from Java 11 to Java 21.',
-        'Improved REST-layer data access with Apache Ignite distributed caching, reducing repeated database access and supporting higher concurrent throughput.',
-        'Developed dynamic Angular reactive forms using Signals, Route Resolvers, Route Guards, HTTP Interceptors, and Decorator patterns for responsive enterprise workflows.',
-        'Established Jenkins CI/CD and SonarQube quality gates with nglint pre-commit checks, maintaining 85% unit test coverage using Karma and Jasmine.',
-        'Implemented API and authentication versioning to transition legacy container-based login flows to a decoupled service-based authentication architecture.',
+        'Implemented Single Sign-On (SSO) within the application alongside Google OAuth 2.0, including On-Behalf-Of delegation and Angular HTTP interceptors for silent JWT token refresh, removing manual re-authentication interruptions for end users.',
+        'Integrated Cloudflare Turnstile at login entry points, delivering a significant reduction in automated bot traffic and credential-stuffing attempts against authentication endpoints.',
+        'Built Spring AOP aspects to profile latency on REST add/update operations, surfacing slow downstream service calls and database procedures, and enforcing optimistic concurrency via createdOn/modifiedOn validation.',
+        'Modernized legacy services by migrating SOAP APIs to REST, upgrading JBoss EAP 7 to 8, and moving the core runtime from Java 11 to Java 21; improved system throughput by 30% using Java virtual thread pools for concurrent processing.',
+        'Improved REST-layer performance with Apache Ignite distributed caching, significantly cutting redundant database hits and reducing response times under concurrent load.',
+        'Developed dynamic Angular reactive forms using Signals, Route Resolvers, Route Guards, HTTP Interceptors, and the Decorator pattern to power responsive enterprise workflows.',
+        'Implemented API and authentication versioning to migrate legacy container-based login flows to a decoupled service-based architecture, validating changes through production-environment testing to avoid downtime.',
+        'Established Jenkins CI/CD pipelines with SonarQube quality gates and nglint pre-commit checks, sustaining 85% unit test coverage using Karma and Jasmine.',
       ],
     },
     {
@@ -37,32 +35,39 @@ export const BASE_RESUME: ResumeData = {
       company: 'Virtusa',
       period: 'Jun 2022 – Jan 2025',
       location: 'Hyderabad, India',
-      client: 'Citibank',
+      client: 'Citi Bank',
       bullets: [
-        'Built a multi-tenant Spring Boot platform on Docker and Kubernetes, routing APAC, EMEA, and NAM traffic with isolated databases, Redis caching, and JWT validation.',
-        'Implemented Resilience4j circuit breakers and fallbacks to improve service availability and provide graceful degradation during upstream multi-region failures.',
-        'Applied Saga, CQRS, and CAP principles to distributed workflows and transaction propagation, with Hibernate L1/L2 caching for persistence optimization.',
-        'Developed enterprise loan-processing workflows using Maker-Checker authorization to enforce dual-control compliance and auditability.',
-        'Reconciled DEV, SIT, UAT, and Production baselines through production artifact analysis, regression testing, and automated branch-merging workflows.',
-        'Built an enterprise loan version-comparison framework with Apache Commons DiffBuilder and an interactive UI for reviewing historical application differences.',
-        'Engineered a custom annotation-driven ORM, validation, and derivation framework using Java Reflection API for legacy systems without Hibernate; configured Kafka for asynchronous batch processing.',
-        'Optimized SQL queries, views, stored procedures, and functions; configured HAProxy load balancing and built integration tests with Mockito, MockMvc, Testcontainers, and WireMock.',
+        'Built a multi-tenant Spring Boot platform on Docker and Kubernetes routing APAC, EMEA, and NAM traffic across isolated databases with Redis caching and GraphQL-based JWT validation; implemented Resilience4j circuit breakers and fallbacks to sustain service availability during upstream multi-region failures.',
+        'Applied Saga, CQRS, and CAP principles to distributed transaction workflows, using Hibernate L1/L2 caching to optimize persistence performance and consistency.',
+        'Developed enterprise loan-processing workflows enforcing Maker-Checker dual-control authorization, ensuring 100% of incoming loan applications passed compliance and auditability checks before approval.',
+        'Reconciled DEV, SIT, UAT, and Production baselines through artifact analysis, regression testing, and automated branch-merging workflows, cutting reconciliation effort from 2 hours to 10 minutes per cycle.',
+        'Built an enterprise loan version-comparison framework with Apache Commons DiffBuilder and an interactive review UI, saving employees 5+ minutes per review by eliminating manual cross-referencing across multiple tabs.',
+        'Engineered a custom annotation-driven ORM, validation, and derivation framework using the Java Reflection API for a five-environment legacy monolith without Hibernate, reducing boilerplate code by 60% and increasing mapping speed by 30%.',
+        'Built a Kafka-based event streaming pipeline for asynchronous loan-application processing, implementing producer/consumer flows with 7-day message retention and At-Least-Once delivery semantics backed by idempotent consumer checks against the distributed cache to prevent duplicate processing.',
+        'Supported a large-scale multi-tenant platform across APAC, EMEA, and NAM regions, managing transaction volume exceeding 40,000 transactions and $2 billion in value, ensuring financial integrity and system stability.',
       ],
     },
   ],
   projects: [],
   skills: [
-    'Java', 'Spring Boot', 'Spring MVC', 'Spring AOP', 'Spring Security', 'Microservices', 'Angular', 'TypeScript', 'JavaScript', 'HTML5', 'CSS3', 'Java 8', 'Java 11', 'Java 17', 'Java 21', 'Docker', 'Kubernetes (K8s)', 'Redis', 'Apache Kafka', 'Apache Ignite', 'Hibernate / JPA (L1 & L2 Caching)', 'Transaction Propagation', 'RESTful APIs', 'SOAP Web Services', 'PostgreSQL', 'SQL (Views, Stored Procedures, Functions)', 'Resilience4j', 'SAML 2.0 (Okta SSO)', 'Google OAuth 2.0', 'Cloudflare Turnstile', 'JWT', 'Model Context Protocol (MCP)', 'LLM API Integration', 'Enterprise AI Chatbots', 'Reactive Forms', 'Angular Signals', 'RxJS', 'Route Resolvers', 'Route Guards', 'HTTP Interceptors', 'Saga Pattern', 'CQRS', 'CAP Theorem', 'SOLID Principles', 'Design Patterns (Decorator, Factory)', 'Maker-Checker Architecture', 'Optimistic Locking', 'Multithreading', 'SonarQube', 'nglint', 'HAProxy', 'JBoss EAP 7/8', 'Testcontainers', 'WireMock', 'Mockito (MockMvc)', 'JUnit', 'Karma', 'Jasmine', 'Jenkins CI/CD', 'Git', 'Maven', 'Java Reflection API', 'Apache DiffBuilder', 'API Versioning'
+    'Java 8', 'Java 11', 'Java 17', 'Java 21', 'TypeScript', 'JavaScript', 'SQL', 'HTML5', 'CSS3',
+    'Spring Boot', 'Spring MVC', 'Spring AOP', 'Spring Security', 'Hibernate/JPA', 'Angular', 'RxJS',
+    'Microservices', 'Saga Pattern', 'CQRS', 'CAP Theorem', 'REST & SOAP APIs', 'GraphQL',
+    'Maker-Checker', 'Optimistic Locking', 'SOLID', 'Design Patterns',
+    'Docker', 'Kubernetes', 'Jenkins CI/CD', 'SonarQube', 'Git', 'Maven', 'HAProxy', 'JBoss EAP 7/8',
+    'PostgreSQL', 'Redis', 'Apache Ignite', 'Apache Kafka', 'Hibernate L1/L2 Caching',
+    'SSO Implementation', 'OAuth 2.0', 'JWT', 'Cloudflare Turnstile', 'JUnit', 'Mockito',
+    'Testcontainers', 'WireMock', 'Karma', 'Jasmine', 'Resilience4j',
   ],
   education: [
     {
-      degree: 'Bachelor of Technology (B.Tech)',
+      degree: 'Bachelor of Technology (B.Tech), Computer Science',
       school: 'Jawaharlal Nehru Technological University Kakinada (JNTUK)',
-      detail: '2018 – 2022 • CGPA: 7.5 / 10',
+      detail: 'CGPA: 7.5 / 10 • 2018 – 2022',
     },
   ],
   certifications: [
-    { name: 'Oracle Certified Professional: Java SE 8 Programmer', detail: 'Nov 2022 • No Expiry' },
+    { name: 'Oracle Certified Professional — Java SE 8 Programmer', detail: '' },
   ],
 };
 
@@ -76,7 +81,10 @@ export class ResumeDataService {
       if (stored) {
         const parsed = JSON.parse(stored);
         if (parsed && parsed.name && Array.isArray(parsed.skills)) {
-          if (parsed.email === 'tonitharun@gmail.com' || !parsed.experience?.[0]?.bullets?.some((b: string) => b.includes('SAML 2.0'))) {
+          if (
+            parsed.email === 'tonitharun@gmail.com' ||
+            !parsed.summary?.includes('4.5+')
+          ) {
             return structuredClone(BASE_RESUME);
           }
           return parsed;
